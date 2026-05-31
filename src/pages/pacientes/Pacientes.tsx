@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../services/api';
+import api from '../../services/api'; //importa la instancia de axios preconfigurada para el backend
 import type { Paciente } from '../../types';
 import { formatearFecha } from '../../utils/fecha';
 import { useAuth } from '../../context/AuthContext'; // Control de roles

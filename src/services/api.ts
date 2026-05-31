@@ -1,7 +1,13 @@
 import axios from 'axios';
 
-const api = axios.create({
+//crea una instancia de axios con la URL base del backend
+/*const api = axios.create({
   baseURL: 'http://localhost:3000/api',
+});*/
+
+//configura la instancia de axios con la URL base del backend, tomada de las variables de entorno
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 //agrega el token automáticamente a cada petición

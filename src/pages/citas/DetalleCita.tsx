@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../services/api';
+import api from '../../services/api'; //llamada a axios preconfigurado para el backend
 import type { Cita, EstadoCita, Tratamiento, SlotDisponibilidad } from '../../types';
 import { formatearFecha } from '../../utils/fecha';
 import { useAuth } from '../../context/AuthContext';
