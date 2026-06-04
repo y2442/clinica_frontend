@@ -127,6 +127,12 @@ const Login = () => {
             {cargando ? 'Iniciando sesión...' : <><i className="ti ti-login" style={{ fontSize: 15 }} aria-hidden="true" /> Iniciar sesión</>}
           </button>
         </form>
+
+        <div style={{ marginTop: 16, background: '#f8fafc', border: '0.5px solid #e5e7eb', borderRadius: 8, padding: '10px 14px', fontSize: 12, color: '#6b7280' }}>
+          <div style={{ fontWeight: 500, marginBottom: 4, color: '#374151' }}>Credenciales de acceso</div>
+          <div>Usuario: <span style={{ color: '#185fa5', fontWeight: 500 }}>admin</span></div>
+          <div>Contraseña: <span style={{ color: '#185fa5', fontWeight: 500 }}>admin1</span></div>
+        </div>
       </div>
     </div>
   );
