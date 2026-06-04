@@ -41,7 +41,7 @@ const Login = () => {
       <div style={{ position: 'absolute', bottom: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'rgba(55,138,221,0.07)' }} />
       <div style={{ position: 'absolute', top: '50%', left: '10%', width: 50, height: 50, borderRadius: '50%', background: 'rgba(55,138,221,0.1)' }} />
       <div style={{ position: 'absolute', top: '10%', right: '15%', width: 150, height: 150, borderRadius: '50%', background: 'rgba(55,138,221,0.1)' }} />
-      <div style={{ position: 'absolute', bottom: '25%', left: '20%', width: 120, height: 120, borderRadius: '50%', background: 'rgba(55,138,221,0.1)'}} />
+      <div style={{ position: 'absolute', bottom: '25%', left: '20%', width: 120, height: 120, borderRadius: '50%', background: 'rgba(55,138,221,0.1)' }} />
 
       <div style={{
         background: 'white',
