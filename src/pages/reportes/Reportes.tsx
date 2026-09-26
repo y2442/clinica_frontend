@@ -48,7 +48,8 @@ const MESES_OPCIONES = [
 
 const calcularFechas = (periodo: string) => {
   const hoy = new Date();
-  const hasta = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-31`;
+  const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+  const hasta = `${finMes.getFullYear()}-${String(finMes.getMonth() + 1).padStart(2, '0')}-${String(finMes.getDate()).padStart(2, '0')}`;
   let desde = '';
 
   if (periodo === 'mes') {
@@ -115,13 +116,16 @@ const Reportes = () => {
     chartEstadosInstance.current?.destroy();
     chartMedicosInstance.current?.destroy();
     chartMesesInstance.current?.destroy();
+    chartEstadosInstance.current = null;
+    chartMedicosInstance.current = null;
+    chartMesesInstance.current = null;
 
     // Gráfica de dona — estados
     if (chartEstadosRef.current) {
-      const completadas = reporte.citasPorEstado.find(e => e.estado === 'Completada')?.total || 0;
-      const canceladas = reporte.citasPorEstado.find(e => e.estado === 'Cancelada')?.total || 0;
-      const programadas = reporte.citasPorEstado.find(e => e.estado === 'Programada')?.total || 0;
-      const reprogramadas = reporte.citasPorEstado.find(e => e.estado === 'Reprogramada')?.total || 0;
+      const completadas = reporte.citasPorEstado.find(e => e.estado?.toLowerCase() === 'completada')?.total || 0;
+      const canceladas = reporte.citasPorEstado.find(e => e.estado?.toLowerCase() === 'cancelada')?.total || 0;
+      const programadas = reporte.citasPorEstado.find(e => e.estado?.toLowerCase() === 'programada')?.total || 0;
+      const reprogramadas = reporte.citasPorEstado.find(e => e.estado?.toLowerCase() === 'reprogramada')?.total || 0;
 
       chartEstadosInstance.current = new Chart(chartEstadosRef.current, {
         type: 'doughnut',
@@ -234,15 +238,20 @@ const Reportes = () => {
       chartEstadosInstance.current?.destroy();
       chartMedicosInstance.current?.destroy();
       chartMesesInstance.current?.destroy();
+      chartEstadosInstance.current = null;
+      chartMedicosInstance.current = null;
+      chartMesesInstance.current = null;
     };
   }, [reporte, citasMes, cargando]);
 
-  const completadas = reporte?.citasPorEstado.find(e => e.estado === 'Completada')?.total || 0;
-  const canceladas = reporte?.citasPorEstado.find(e => e.estado === 'Cancelada')?.total || 0;
-  const programadas = reporte?.citasPorEstado.find(e => e.estado === 'Programada')?.total || 0;
+  const completadas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'completada')?.total || 0;
+  const canceladas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'cancelada')?.total || 0;
+  const programadas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'programada')?.total || 0;
   const totalCitas = reporte?.totalCitas || 0;
   const efectividadGeneral = totalCitas > 0 ? Math.round((completadas / totalCitas) * 100) : 0;
-  const maxUsos = tratamientos.length > 0 ? Math.max(...tratamientos.map(t => t.total_usos)) : 1;
+  const maxUsos = (tratamientos.length > 0 && Math.max(...tratamientos.map(t => t.total_usos)) > 0)
+    ? Math.max(...tratamientos.map(t => t.total_usos))
+    : 1;
 
   const cardStyle: React.CSSProperties = {
     background: 'white', borderRadius: 12,
@@ -273,10 +282,10 @@ const Reportes = () => {
       {/* Métricas principales */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
         {[
-          { label: 'Total citas', valor: cargando ? '...' : totalCitas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>, color: '#185fa5', sub: 'En el período seleccionado' },
-          { label: 'Completadas', valor: cargando ? '...' : completadas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>, color: '#3b6d11', sub: `${efectividadGeneral}% de efectividad` },
-          { label: 'Canceladas', valor: cargando ? '...' : canceladas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>, color: '#a32d2d', sub: `${totalCitas > 0 ? Math.round((canceladas / totalCitas) * 100) : 0}% de cancelación` },
-          { label: 'Nuevos pacientes', valor: cargando ? '...' : reporte?.nuevosPacientes || 0, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="8" r="4"/><path d="M2 20c0-3.3 3.1-6 8-6"/><path d="M18 14v6M15 17h6"/></svg>, color: '#534ab7', sub: 'En el período seleccionado' },
+          { label: 'Total citas', valor: cargando ? '...' : totalCitas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>, color: '#185fa5', sub: 'En el período seleccionado' },
+          { label: 'Completadas', valor: cargando ? '...' : completadas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M8 12l3 3 5-5" /></svg>, color: '#3b6d11', sub: `${efectividadGeneral}% de efectividad` },
+          { label: 'Canceladas', valor: cargando ? '...' : canceladas, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" /></svg>, color: '#a32d2d', sub: `${totalCitas > 0 ? Math.round((canceladas / totalCitas) * 100) : 0}% de cancelación` },
+          { label: 'Nuevos pacientes', valor: cargando ? '...' : reporte?.nuevosPacientes || 0, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="8" r="4" /><path d="M2 20c0-3.3 3.1-6 8-6" /><path d="M18 14v6M15 17h6" /></svg>, color: '#534ab7', sub: 'En el período seleccionado' },
         ].map((stat, i) => (
           <div key={i}
             style={{ background: 'white', borderRadius: 10, padding: '14px 16px', border: '0.5px solid #e5e7eb', transition: 'transform 0.18s, box-shadow 0.18s' }}
