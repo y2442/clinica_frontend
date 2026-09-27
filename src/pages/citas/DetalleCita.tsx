@@ -114,12 +114,13 @@ const DetalleCita = () => {
 
   const guardarTratamientos = async () => {
     setGuardando(true);
+    setError('');
     try {
       await api.post(`/citas/${id}/tratamientos`, { tratamientos: tratSeleccionados });
       setModalTratamientos(false);
       cargar();
-    } catch {
-      setError('Error al guardar tratamientos');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Error al guardar tratamientos');
     } finally {
       setGuardando(false);
     }
