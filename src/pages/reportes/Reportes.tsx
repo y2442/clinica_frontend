@@ -253,6 +253,68 @@ const Reportes = () => {
     ? Math.max(...tratamientos.map(t => t.total_usos))
     : 1;
 
+  const exportarCSV = () => {
+    if (!reporte) return;
+    const periodoObj = MESES_OPCIONES.find(o => o.value === periodo);
+    const periodoNombre = periodoObj ? periodoObj.label : periodo;
+    const fechaActual = new Date().toLocaleDateString('es-GT', {
+      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+
+    let csv = '\uFEFF';
+    csv += `DENTACARE - REPORTE DE CITAS Y SISTEMA\n`;
+    csv += `Filtro de tiempo:;"${periodoNombre}"\n`;
+    csv += `Fecha de generación:;"${fechaActual}"\n\n`;
+
+    csv += `--- RESUMEN GENERAL ---\n`;
+    csv += `Métrica;Valor;Notas\n`;
+    csv += `Total de citas;${totalCitas};Período: ${periodoNombre}\n`;
+    csv += `Citas completadas;${completadas};${efectividadGeneral}% de efectividad\n`;
+    csv += `Citas canceladas;${canceladas};${totalCitas > 0 ? Math.round((canceladas / totalCitas) * 100) : 0}% de cancelación\n`;
+    csv += `Nuevos pacientes registrados;${reporte.nuevosPacientes};En el período seleccionado\n\n`;
+
+    csv += `--- CITAS POR ESTADO ---\n`;
+    csv += `Estado;Total\n`;
+    reporte.citasPorEstado.forEach(e => {
+      csv += `"${e.estado}";${e.total}\n`;
+    });
+    csv += `\n`;
+
+    csv += `--- RESUMEN POR MÉDICO ---\n`;
+    csv += `Médico;Total Citas;Completadas;Canceladas;Programadas;Efectividad (%)\n`;
+    reporte.resumenMedicos.forEach(m => {
+      csv += `"Dr(a). ${m.nombre}";${m.total};${m.completadas};${m.canceladas};${m.programadas};${m.efectividad}%\n`;
+    });
+    csv += `\n`;
+
+    if (citasMes.length > 0) {
+      csv += `--- EVOLUCIÓN MENSUAL DE CITAS ---\n`;
+      csv += `Mes;Total Citas\n`;
+      citasMes.forEach(m => {
+        csv += `"${m.label}";${m.total}\n`;
+      });
+      csv += `\n`;
+    }
+
+    if (tratamientos.length > 0) {
+      csv += `--- TRATAMIENTOS MÁS REALIZADOS ---\n`;
+      csv += `Tratamiento;Costo (Q);Total Usos\n`;
+      tratamientos.forEach(t => {
+        csv += `"${t.nombre}";Q${t.costo.toFixed(2)};${t.total_usos}\n`;
+      });
+    }
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Reporte_DentaCare_${periodo}_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const cardStyle: React.CSSProperties = {
     background: 'white', borderRadius: 12,
     border: '0.5px solid #e5e7eb', padding: '1rem 1.25rem',
@@ -270,10 +332,50 @@ const Reportes = () => {
           <select
             value={periodo}
             onChange={e => setPeriodo(e.target.value)}
-            style={{ border: '0.5px solid #d1d5db', borderRadius: 8, padding: '8px 12px', fontSize: 13, outline: 'none', cursor: 'pointer' }}
+            style={{ border: '0.5px solid #d1d5db', borderRadius: 8, padding: '8px 12px', fontSize: 13, outline: 'none', cursor: 'pointer', background: 'white' }}
           >
             {MESES_OPCIONES.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
+
+          <button
+            onClick={exportarCSV}
+            disabled={!reporte || cargando}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: '#0f6e56', color: 'white', border: 'none',
+              borderRadius: 8, padding: '8px 14px', fontSize: 13,
+              fontWeight: 500, cursor: (!reporte || cargando) ? 'not-allowed' : 'pointer',
+              opacity: (!reporte || cargando) ? 0.6 : 1,
+              transition: 'background 0.15s',
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Exportar CSV
+          </button>
+
+          <button
+            onClick={() => window.print()}
+            disabled={!reporte || cargando}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: '#185fa5', color: 'white', border: 'none',
+              borderRadius: 8, padding: '8px 14px', fontSize: 13,
+              fontWeight: 500, cursor: (!reporte || cargando) ? 'not-allowed' : 'pointer',
+              opacity: (!reporte || cargando) ? 0.6 : 1,
+              transition: 'background 0.15s',
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9" />
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+              <rect x="6" y="14" width="12" height="8" />
+            </svg>
+            Imprimir / PDF
+          </button>
         </div>
       </div>
 
