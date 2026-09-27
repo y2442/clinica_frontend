@@ -58,7 +58,7 @@ const Login = () => {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 12px', fontSize: 30,
           }}>🦷</div>
-          <div style={{ fontSize: 18, fontWeight: 500 }}>Clínica Dental</div>
+          <div style={{ fontSize: 18, fontWeight: 500 }}>DentaCare</div>
           <div style={{ fontSize: 13, color: '#6b7280', marginTop: 3 }}>Sistema de Gestión de Citas</div>
           <div style={{ width: 32, height: 2, background: '#185fa5', borderRadius: 2, margin: '10px auto 0' }} />
         </div>

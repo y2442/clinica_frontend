@@ -54,7 +54,7 @@ const Sidebar = () => {
       <div style={{ padding: '18px 14px 14px', borderBottom: '0.5px solid rgba(255,255,255,0.07)', position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
           <div style={{ width: 30, height: 30, background: 'rgba(55,138,221,0.25)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🦷</div>
-          <div style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>Clínica Dental</div>
+          <div style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>DentaCare</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 10 }}>
           <div style={{

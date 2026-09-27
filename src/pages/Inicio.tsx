@@ -55,7 +55,7 @@ const Inicio = () => {
               {saludo}, {usuario?.nombre_usuario}
             </div>
             <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
-              Bienvenid@ al Sistema de Gestión de Citas de <span style={{ color: '#378add', fontWeight: 500 }}>Clínica Dental</span>
+              Bienvenid@ al Sistema de Gestión de Citas de <span style={{ color: '#378add', fontWeight: 500 }}>DentaCare</span>
             </div>
             <div style={{ marginTop: 12 }}>
               <span style={{ background: 'rgba(55,138,221,0.2)', color: '#85b7eb', fontSize: 12, padding: '4px 12px', borderRadius: 10, fontWeight: 500 }}>
