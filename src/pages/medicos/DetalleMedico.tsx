@@ -114,8 +114,8 @@ const DetalleMedico = () => {
     try {
       await api.post(`/medicos/${id}/especialidades`, { especialidades: espSeleccionadas });
       cargar();
-    } catch {
-      setError('Error al guardar especialidades');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Error al guardar especialidades');
     } finally {
       setGuardandoEsp(false);
     }
