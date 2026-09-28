@@ -26,65 +26,166 @@ const Sidebar = () => {
 
   const inicial = usuario?.nombre_usuario?.charAt(0).toUpperCase() || 'U';
 
-  // Filtrar items según el rol
   const menuFiltrado = todosLosItems.filter(item => item.roles.includes(rol));
   const reportesFiltrado = reporteItems.filter(item => item.roles.includes(rol));
 
   const navItemStyle = (isActive: boolean): React.CSSProperties => ({
-    padding: '9px 12px', borderRadius: 8, display: 'flex', alignItems: 'center',
-    gap: 9, fontSize: 13, cursor: 'pointer', textDecoration: 'none',
-    marginBottom: 2, transition: 'background 0.18s',
-    color: isActive ? 'white' : 'rgba(255,255,255,0.55)',
-    background: isActive ? 'rgba(55,138,221,0.25)' : 'transparent',
-    borderLeft: isActive ? '2px solid #378add' : '2px solid transparent',
-    fontWeight: isActive ? 500 : 400,
+    padding: '10px 14px',
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    fontSize: 13.5,
+    fontWeight: isActive ? 600 : 400,
+    cursor: 'pointer',
+    textDecoration: 'none',
+    marginBottom: 4,
+    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    position: 'relative',
+    color: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.65)',
+    background: isActive
+      ? 'linear-gradient(90deg, rgba(55, 138, 221, 0.28) 0%, rgba(55, 138, 221, 0.08) 100%)'
+      : 'transparent',
+    boxShadow: isActive ? 'inset 0 1px 0 rgba(255,255,255,0.1)' : 'none',
   });
 
   return (
     <aside style={{
-      width: 220, minHeight: '100vh', background: '#0a2540',
-      display: 'flex', flexDirection: 'column', flexShrink: 0,
-      position: 'relative', overflow: 'hidden',
+      width: 235,
+      minHeight: '100vh',
+      background: 'linear-gradient(180deg, #07192c 0%, #030d18 100%)',
+      display: 'flex',
+      flexDirection: 'column',
+      flexShrink: 0,
+      position: 'relative',
+      overflow: 'hidden',
+      borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+      boxSizing: 'border-box',
+      userSelect: 'none',
+      fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif",
     }}>
-      {/* Patrones decorativos */}
-      <div style={{ position: 'absolute', top: -60, right: -60, width: 180, height: 180, borderRadius: '50%', background: 'rgba(56,142,221,0.12)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 40, left: -40, width: 120, height: 120, borderRadius: '50%', background: 'rgba(56,142,221,0.07)', pointerEvents: 'none' }} />
+      {/* Luces y patrones ambientales */}
+      <div style={{
+        position: 'absolute', top: -70, right: -70, width: 200, height: 200,
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(56,142,221,0.18) 0%, rgba(0,0,0,0) 70%)',
+        pointerEvents: 'none', filter: 'blur(20px)',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: 60, left: -50, width: 160, height: 160,
+        borderRadius: '50%', background: 'radial-gradient(circle, rgba(14,165,233,0.12) 0%, rgba(0,0,0,0) 70%)',
+        pointerEvents: 'none', filter: 'blur(30px)',
+      }} />
 
-      {/* Header */}
-      <div style={{ padding: '18px 14px 14px', borderBottom: '0.5px solid rgba(255,255,255,0.07)', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <div style={{ width: 30, height: 30, background: 'rgba(55,138,221,0.25)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🦷</div>
-          <div style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>DentaCare</div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: 10 }}>
+      {/* Header institucional */}
+      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid rgba(255,255,255,0.08)', position: 'relative', zIndex: 2 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
           <div style={{
-            width: 34, height: 34, borderRadius: '50%',
-            background: 'linear-gradient(135deg, #378add, #185fa5)',
+            width: 36, height: 36,
+            background: 'linear-gradient(135deg, #185fa5 0%, #0284c7 100%)',
+            borderRadius: 10,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 13, fontWeight: 500, color: 'white', flexShrink: 0,
-          }}>{inicial}</div>
+            fontSize: 18, boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
+            color: 'white', flexShrink: 0,
+          }}>
+            🦷
+          </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 500, color: 'white' }}>{usuario?.nombre_usuario}</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 1 }}>{rol}</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+              DentaCare
+            </div>
+            <div style={{ fontSize: 11, color: '#38bdf8', fontWeight: 500, marginTop: 2 }}>
+              Gestión Odontológica
+            </div>
+          </div>
+        </div>
+
+        {/* Tarjeta de usuario */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          background: 'rgba(255, 255, 255, 0.05)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 12, padding: '10px 12px',
+          backdropFilter: 'blur(8px)',
+        }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #0284c7 0%, #185fa5 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 14, fontWeight: 700, color: 'white',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            }}>
+              {inicial}
+            </div>
+            <span style={{
+              position: 'absolute', bottom: 0, right: 0, width: 9, height: 9,
+              borderRadius: '50%', background: '#22c55e', border: '2px solid #07192c',
+            }} />
+          </div>
+          <div style={{ overflow: 'hidden' }}>
+            <div style={{
+              fontSize: 13, fontWeight: 600, color: '#ffffff',
+              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            }}>
+              {usuario?.nombre_usuario}
+            </div>
+            <div style={{
+              fontSize: 10.5, fontWeight: 500, color: '#94a3b8',
+              marginTop: 1, textTransform: 'capitalize',
+            }}>
+              {rol}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Navegación */}
-      <nav style={{ padding: '12px 8px', flex: 1, position: 'relative', zIndex: 1 }}>
+      {/* Navegación principal */}
+      <nav style={{ padding: '14px 10px', flex: 1, position: 'relative', zIndex: 2, overflowY: 'auto' }}>
         {menuFiltrado.length > 0 && (
           <>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', padding: '0 8px', marginBottom: 8, letterSpacing: '0.08em' }}>PRINCIPAL</div>
+            <div style={{
+              fontSize: 10, fontWeight: 700, color: 'rgba(255, 255, 255, 0.35)',
+              padding: '0 10px', marginBottom: 8, letterSpacing: '0.08em',
+            }}>
+              MÓDULOS
+            </div>
             {menuFiltrado.map(item => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 style={({ isActive }) => navItemStyle(isActive)}
-                onMouseEnter={e => (e.currentTarget.style.transform = 'translateX(3px)')}
-                onMouseLeave={e => (e.currentTarget.style.transform = 'translateX(0)')}
+                onMouseEnter={e => {
+                  if (!e.currentTarget.classList.contains('active')) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateX(3px)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!e.currentTarget.classList.contains('active')) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }
+                }}
               >
-                <i className={`ti ${item.icon}`} style={{ fontSize: 16 }} aria-hidden="true" />
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    {isActive && (
+                      <div style={{
+                        position: 'absolute', left: 0, top: '20%', bottom: '20%',
+                        width: 3, background: '#38bdf8', borderRadius: '0 4px 4px 0',
+                        boxShadow: '0 0 8px #38bdf8',
+                      }} />
+                    )}
+                    <i className={`ti ${item.icon}`} style={{
+                      fontSize: 17,
+                      color: isActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.55)',
+                      transition: 'color 0.2s',
+                    }} aria-hidden="true" />
+                    <span>{item.label}</span>
+                  </>
+                )}
               </NavLink>
             ))}
           </>
@@ -92,37 +193,90 @@ const Sidebar = () => {
 
         {reportesFiltrado.length > 0 && (
           <>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', padding: '0 8px', margin: '12px 0 8px', letterSpacing: '0.08em' }}>REPORTES</div>
+            <div style={{
+              fontSize: 10, fontWeight: 700, color: 'rgba(255, 255, 255, 0.35)',
+              padding: '0 10px', margin: '16px 0 8px', letterSpacing: '0.08em',
+            }}>
+              ANALÍTICA
+            </div>
             {reportesFiltrado.map(item => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 style={({ isActive }) => navItemStyle(isActive)}
-                onMouseEnter={e => (e.currentTarget.style.transform = 'translateX(3px)')}
-                onMouseLeave={e => (e.currentTarget.style.transform = 'translateX(0)')}
+                onMouseEnter={e => {
+                  if (!e.currentTarget.classList.contains('active')) {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateX(3px)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!e.currentTarget.classList.contains('active')) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }
+                }}
               >
-                <i className={`ti ${item.icon}`} style={{ fontSize: 16 }} aria-hidden="true" />
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    {isActive && (
+                      <div style={{
+                        position: 'absolute', left: 0, top: '20%', bottom: '20%',
+                        width: 3, background: '#38bdf8', borderRadius: '0 4px 4px 0',
+                        boxShadow: '0 0 8px #38bdf8',
+                      }} />
+                    )}
+                    <i className={`ti ${item.icon}`} style={{
+                      fontSize: 17,
+                      color: isActive ? '#38bdf8' : 'rgba(255, 255, 255, 0.55)',
+                      transition: 'color 0.2s',
+                    }} aria-hidden="true" />
+                    <span>{item.label}</span>
+                  </>
+                )}
               </NavLink>
             ))}
           </>
         )}
       </nav>
 
-      {/* Cerrar sesión */}
-      <div style={{ padding: '10px 8px', borderTop: '0.5px solid rgba(255,255,255,0.07)', position: 'relative', zIndex: 1 }}>
+      {/* Footer / Cerrar sesión */}
+      <div style={{
+        padding: '12px 10px',
+        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        position: 'relative',
+        zIndex: 2,
+      }}>
         <button
           onClick={handleLogout}
           style={{
-            width: '100%', padding: '8px 12px', borderRadius: 8, display: 'flex',
-            alignItems: 'center', gap: 9, fontSize: 13, cursor: 'pointer',
-            color: 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none',
-            transition: 'background 0.18s, color 0.18s',
+            width: '100%',
+            padding: '10px 14px',
+            borderRadius: 10,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            fontSize: 13,
+            fontWeight: 500,
+            cursor: 'pointer',
+            color: 'rgba(255, 255, 255, 0.6)',
+            background: 'transparent',
+            border: 'none',
+            transition: 'all 0.2s ease',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(220,50,50,0.15)'; e.currentTarget.style.color = '#f09595'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+            e.currentTarget.style.color = '#f87171';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+          }}
         >
-          <i className="ti ti-logout" style={{ fontSize: 16 }} aria-hidden="true" /> Cerrar sesión
+          <i className="ti ti-logout" style={{ fontSize: 17 }} aria-hidden="true" />
+          <span>Cerrar sesión</span>
         </button>
       </div>
     </aside>

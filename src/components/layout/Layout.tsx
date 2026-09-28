@@ -1,3 +1,4 @@
+//archivo para crear la estructura de la aplicación con react router dom
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
