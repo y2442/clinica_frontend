@@ -68,7 +68,13 @@ const Login = () => {
       boxSizing: 'border-box',
       fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif",
     }}>
-      {/* Luces de fondo dinámicas */}
+      {/* Luces y círculos decorativos de fondo */}
+      <div style={{ position: 'absolute', top: -80, left: -80, width: 320, height: 320, borderRadius: '50%', background: 'rgba(55,138,221,0.12)', border: '1px solid rgba(55,138,221,0.15)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'rgba(55,138,221,0.1)', border: '1px solid rgba(55,138,221,0.12)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '50%', left: '8%', width: 60, height: 60, borderRadius: '50%', background: 'rgba(55,138,221,0.15)', border: '1px solid rgba(55,138,221,0.2)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '12%', right: '12%', width: 160, height: 160, borderRadius: '50%', background: 'rgba(55,138,221,0.12)', border: '1px solid rgba(55,138,221,0.18)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '22%', left: '18%', width: 130, height: 130, borderRadius: '50%', background: 'rgba(55,138,221,0.12)', border: '1px solid rgba(55,138,221,0.15)', pointerEvents: 'none' }} />
+
       <div style={{
         position: 'absolute', top: '-10%', left: '20%', width: 450, height: 450,
         borderRadius: '50%', background: 'radial-gradient(circle, rgba(55,138,221,0.2) 0%, rgba(0,0,0,0) 70%)',
@@ -110,7 +116,7 @@ const Login = () => {
             DentaCare
           </h1>
           <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0 0' }}>
-            Sistema de Gestión Odontológica
+            Sistema de Gestión de Citas
           </p>
           <div style={{ width: 40, height: 3, background: 'linear-gradient(90deg, #185fa5, #0284c7)', borderRadius: 2, margin: '12px auto 0' }} />
         </div>
