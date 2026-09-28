@@ -45,67 +45,116 @@ const Inicio = () => {
   return (
     <div>
       {/* Hero de bienvenida */}
-      <div style={{ background: '#0a2540', borderRadius: 14, padding: '2rem', marginBottom: 24, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'rgba(55,138,221,0.1)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -30, left: '30%', width: 150, height: 150, borderRadius: '50%', background: 'rgba(55,138,221,0.07)', pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+      <div style={{
+        background: 'linear-gradient(135deg, #07192c 0%, #0d2847 100%)',
+        borderRadius: 16,
+        padding: '2.2rem 2rem',
+        marginBottom: 24,
+        position: 'relative',
+        overflow: 'hidden',
+        boxShadow: '0 10px 30px -10px rgba(7, 25, 44, 0.3)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+      }}>
+        {/* Círculos decorativos de fondo (preservados y mejorados) */}
+        <div style={{ position: 'absolute', top: -50, right: -50, width: 220, height: 220, borderRadius: '50%', background: 'rgba(55,138,221,0.15)', border: '1px solid rgba(55,138,221,0.2)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -40, left: '25%', width: 170, height: 170, borderRadius: '50%', background: 'rgba(55,138,221,0.08)', border: '1px solid rgba(55,138,221,0.12)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '20%', left: -30, width: 90, height: 90, borderRadius: '50%', background: 'rgba(14,165,233,0.1)', pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 6, textTransform: 'capitalize' }}>{fechaFormateada}</div>
-            <div style={{ fontSize: 26, fontWeight: 500, color: 'white', marginBottom: 6 }}>
+            <div style={{ fontSize: 12.5, color: '#38bdf8', fontWeight: 600, marginBottom: 6, textTransform: 'capitalize', letterSpacing: '0.02em' }}>
+              🗓️ {fechaFormateada}
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: '#ffffff', marginBottom: 6, letterSpacing: '-0.02em' }}>
               {saludo}, {usuario?.nombre_usuario}
             </div>
-            <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
-              Bienvenid@ al Sistema de Gestión de Citas de <span style={{ color: '#378add', fontWeight: 500 }}>DentaCare</span>
+            <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', lineHeight: 1.5 }}>
+              Bienvenid@ al Sistema de Gestión de Citas de <span style={{ color: '#38bdf8', fontWeight: 600 }}>DentaCare</span>
             </div>
-            <div style={{ marginTop: 12 }}>
-              <span style={{ background: 'rgba(55,138,221,0.2)', color: '#85b7eb', fontSize: 12, padding: '4px 12px', borderRadius: 10, fontWeight: 500 }}>
+            <div style={{ marginTop: 14, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <span style={{
+                background: 'linear-gradient(90deg, rgba(56,142,221,0.3) 0%, rgba(56,142,221,0.1) 100%)',
+                color: '#7dd3fc', border: '1px solid rgba(56,142,221,0.3)',
+                fontSize: 12, padding: '4px 14px', borderRadius: 20, fontWeight: 600,
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+              }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#38bdf8' }} />
                 {usuario?.nombre_rol}
               </span>
             </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 36, fontWeight: 500, color: 'white', letterSpacing: 2, fontFamily: 'monospace' }}>{horaFormateada}</div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>Hora local — Guatemala</div>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: 12, padding: '14px 20px', textAlign: 'right',
+            backdropFilter: 'blur(8px)',
+          }}>
+            <div style={{ fontSize: 34, fontWeight: 700, color: '#ffffff', letterSpacing: 2, fontFamily: 'monospace' }}>
+              {horaFormateada}
+            </div>
+            <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.5)', marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} /> Hora local — Guatemala
+            </div>
           </div>
         </div>
       </div>
 
       {/* Galería de imágenes — carrusel */}
-      <div style={{ background: 'white', borderRadius: 12, border: '0.5px solid #e5e7eb', overflow: 'hidden', marginBottom: 24 }}>
+      <div style={{
+        background: 'white', borderRadius: 16, border: '1px solid #e2e8f0',
+        overflow: 'hidden', marginBottom: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+      }}>
         <div style={{ position: 'relative' }}>
           {/* Imagen principal */}
-          <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
+          <div style={{ position: 'relative', height: 320, overflow: 'hidden' }}>
             <img
               src={imagenes[imagenActiva].src}
               alt={imagenes[imagenActiva].titulo}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.5s ease' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.5s ease-in-out' }}
             />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(10,37,64,0.85))', padding: '30px 20px 16px' }}>
-              <div style={{ fontSize: 15, fontWeight: 500, color: 'white' }}>{imagenes[imagenActiva].titulo}</div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', marginTop: 2 }}>{imagenes[imagenActiva].descripcion}</div>
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(7,25,44,0.85) 100%)', padding: '36px 24px 20px' }}>
+              <div style={{ fontSize: 17, fontWeight: 600, color: '#ffffff' }}>{imagenes[imagenActiva].titulo}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginTop: 4 }}>{imagenes[imagenActiva].descripcion}</div>
             </div>
             {/* Flechas navegación */}
             <button
               onClick={() => setImagenActiva(prev => (prev - 1 + imagenes.length) % imagenes.length)}
-              style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', fontSize: 16, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.35)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+              style={{
+                position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.25)', backdropFilter: 'blur(4px)', border: 'none',
+                borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', fontSize: 18,
+                color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.2s ease', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
             >‹</button>
             <button
               onClick={() => setImagenActiva(prev => (prev + 1) % imagenes.length)}
-              style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', fontSize: 16, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.35)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+              style={{
+                position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.25)', backdropFilter: 'blur(4px)', border: 'none',
+                borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', fontSize: 18,
+                color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.2s ease', boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.05)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
             >›</button>
           </div>
 
           {/* Miniaturas */}
-          <div style={{ display: 'flex', gap: 8, padding: '12px 16px' }}>
+          <div style={{ display: 'flex', gap: 10, padding: '14px 18px', background: '#f8fafc' }}>
             {imagenes.map((img, i) => (
               <div key={i} onClick={() => setImagenActiva(i)}
-                style={{ flex: 1, height: 70, borderRadius: 8, overflow: 'hidden', cursor: 'pointer', border: `2px solid ${imagenActiva === i ? '#185fa5' : 'transparent'}`, transition: 'border-color 0.2s, opacity 0.2s', opacity: imagenActiva === i ? 1 : 0.6 }}
+                style={{
+                  flex: 1, height: 68, borderRadius: 10, overflow: 'hidden', cursor: 'pointer',
+                  border: `2px solid ${imagenActiva === i ? '#0284c7' : 'transparent'}`,
+                  boxShadow: imagenActiva === i ? '0 0 0 2px rgba(2, 132, 199, 0.25)' : 'none',
+                  transition: 'all 0.2s ease', opacity: imagenActiva === i ? 1 : 0.65,
+                }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = imagenActiva === i ? '1' : '0.6')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = imagenActiva === i ? '1' : '0.65')}
               >
                 <img src={img.src} alt={img.titulo} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
@@ -113,10 +162,14 @@ const Inicio = () => {
           </div>
 
           {/* Puntos indicadores */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, paddingBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 8, paddingBottom: 14, background: '#f8fafc' }}>
             {imagenes.map((_, i) => (
               <div key={i} onClick={() => setImagenActiva(i)}
-                style={{ width: imagenActiva === i ? 20 : 8, height: 8, borderRadius: 4, background: imagenActiva === i ? '#185fa5' : '#d1d5db', cursor: 'pointer', transition: 'all 0.3s' }}
+                style={{
+                  width: imagenActiva === i ? 24 : 8, height: 8, borderRadius: 4,
+                  background: imagenActiva === i ? '#0284c7' : '#cbd5e1',
+                  cursor: 'pointer', transition: 'all 0.3s ease',
+                }}
               />
             ))}
           </div>
@@ -124,21 +177,39 @@ const Inicio = () => {
       </div>
 
       {/* Servicios */}
-      <div style={{ background: 'white', borderRadius: 12, border: '0.5px solid #e5e7eb', overflow: 'hidden', marginBottom: 24 }}>
-        <div style={{ padding: '16px 20px', borderBottom: '0.5px solid #e5e7eb', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 16 }}>🦷</div>
-          <div style={{ fontSize: 15, fontWeight: 500, color: '#0a2540' }}>Nuestros servicios</div>
+      <div style={{
+        background: 'white', borderRadius: 16, border: '1px solid #e2e8f0',
+        overflow: 'hidden', marginBottom: 24, boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+      }}>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>
+            🦷
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 600, color: '#0f172a' }}>Nuestros servicios odontológicos</div>
         </div>
-        <div style={{ padding: '12px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div style={{ padding: '16px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
           {servicios.map((s, i) => (
             <div key={i}
-              style={{ padding: '12px', background: '#f8fafc', borderRadius: 10, transition: 'background 0.15s', cursor: 'default' }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#f0f4ff')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#f8fafc')}
+              style={{
+                padding: '14px 16px', background: '#f8fafc', border: '1px solid #f1f5f9',
+                borderRadius: 12, transition: 'all 0.2s ease', cursor: 'default',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = '#ffffff';
+                e.currentTarget.style.borderColor = '#bae6fd';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(2, 132, 199, 0.08)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = '#f8fafc';
+                e.currentTarget.style.borderColor = '#f1f5f9';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
-              <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: '#0a2540', marginBottom: 4 }}>{s.titulo}</div>
-              <div style={{ fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>{s.descripcion}</div>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>{s.titulo}</div>
+              <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>{s.descripcion}</div>
             </div>
           ))}
         </div>
