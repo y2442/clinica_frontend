@@ -124,14 +124,14 @@ const Pacientes = () => {
   };
 
   return (
-    <div style={{ minHeight: '100%', padding: '4px 0 24px 0' }}>
+    <div style={{ fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif", minHeight: '100%', padding: '4px 0 24px 0' }}>
       {/* Encabezado sin icono a la par del título */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', margin: 0, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', margin: 0, letterSpacing: '-0.02em' }}>
             Pacientes
           </h1>
-          <p style={{ fontSize: '14px', color: '#64748b', margin: '4px 0 0 0' }}>
+          <p style={{ fontSize: 13, color: '#64748b', margin: '4px 0 0 0' }}>
             Gestión integral de expedientes y directorio médico de la clínica
           </p>
         </div>
@@ -141,49 +141,48 @@ const Pacientes = () => {
           <button
             onClick={() => abrirModal()}
             style={{
-              background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
+              background: 'linear-gradient(135deg, #185fa5 0%, #0284c7 100%)',
               color: 'white',
               border: 'none',
-              borderRadius: '12px',
-              padding: '11px 22px',
-              fontSize: '14px',
+              borderRadius: 12,
+              padding: '10px 18px',
+              fontSize: 14,
               fontWeight: 600,
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 14px rgba(14, 165, 233, 0.35)',
-              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+              gap: 8,
+              boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
+              transition: 'all 0.2s ease',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(14, 165, 233, 0.45)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(2, 132, 199, 0.45)';
             }}
             onMouseLeave={e => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(14, 165, 233, 0.35)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(2, 132, 199, 0.35)';
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
-            Nuevo Paciente
+            <span>Nuevo Paciente</span>
           </button>
         )}
       </div>
 
       {/* Tarjetas de resumen estatístico */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
           {
             label: 'Total Pacientes',
             valor: pacientes.length,
-            badgeBg: '#f0f9ff',
-            badgeColor: '#0284c7',
-            borderColor: '#e0f2fe',
+            color: '#0284c7',
+            iconBg: '#e0f2fe',
             icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -194,11 +193,10 @@ const Pacientes = () => {
           {
             label: 'Pacientes Activos',
             valor: activos,
-            badgeBg: '#f0fdf4',
-            badgeColor: '#16a34a',
-            borderColor: '#dcfce7',
+            color: '#047857',
+            iconBg: '#dcfce7',
             icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#047857" strokeWidth="2">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
@@ -207,11 +205,10 @@ const Pacientes = () => {
           {
             label: 'Pacientes Inactivos',
             valor: inactivos,
-            badgeBg: '#fff1f2',
-            badgeColor: '#e11d48',
-            borderColor: '#ffe4e6',
+            color: '#b91c1c',
+            iconBg: '#fee2e2',
             icon: (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b91c1c" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="15" y1="9" x2="9" y2="15"></line>
                 <line x1="9" y1="9" x2="15" y2="15"></line>
@@ -223,38 +220,38 @@ const Pacientes = () => {
             key={i}
             style={{
               background: '#ffffff',
-              borderRadius: '16px',
-              padding: '20px 22px',
-              border: `1px solid ${stat.borderColor}`,
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)',
+              borderRadius: 16,
+              padding: '18px 20px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.03)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.2s ease',
+              cursor: 'default',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.06)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.07)';
             }}
             onMouseLeave={e => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.03)';
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.03)';
             }}
           >
             <div>
-              <p style={{ fontSize: '13px', fontWeight: 600, color: '#64748b', margin: 0, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 12.5, color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {stat.label}
-              </p>
-              <p style={{ fontSize: '28px', fontWeight: 800, color: '#0f172a', margin: '6px 0 0 0', lineHeight: 1 }}>
+              </div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: '#0f172a', marginTop: 4 }}>
                 {stat.valor}
-              </p>
+              </div>
             </div>
             <div style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '14px',
-              backgroundColor: stat.badgeBg,
-              color: stat.badgeColor,
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              backgroundColor: stat.iconBg,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -279,7 +276,7 @@ const Pacientes = () => {
           alignItems: 'center',
           gap: '10px'
         }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
           <span>{error}</span>
         </div>
       )}
@@ -840,4 +837,4 @@ const Pacientes = () => {
   );
 };
 
-export default Pacientes;
+export default Pacientes;
