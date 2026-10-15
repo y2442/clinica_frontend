@@ -174,6 +174,13 @@ const Reportes = () => {
               borderRadius: 6,
               borderSkipped: false,
             },
+            {
+              label: 'Reprogramadas',
+              data: reporte.resumenMedicos.map(m => m.reprogramadas || 0),
+              backgroundColor: '#f97316',
+              borderRadius: 6,
+              borderSkipped: false,
+            },
           ],
         },
         options: {
@@ -250,6 +257,7 @@ const Reportes = () => {
   const completadas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'completada')?.total || 0;
   const canceladas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'cancelada')?.total || 0;
   const programadas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'programada')?.total || 0;
+  const reprogramadas = reporte?.citasPorEstado.find(e => e.estado?.toLowerCase() === 'reprogramada')?.total || 0;
   const totalCitas = reporte?.totalCitas || 0;
   const efectividadGeneral = totalCitas > 0 ? Math.round((completadas / totalCitas) * 100) : 0;
   const maxUsos = (tratamientos.length > 0 && Math.max(...tratamientos.map(t => t.total_usos)) > 0)
@@ -335,17 +343,49 @@ const Reportes = () => {
     backgroundColor: '#ffffff',
     outline: 'none',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
+    transition: 'all 0.15s ease',
   };
 
   return (
-    <div style={{ fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif" }}>
-      {/* Banner impreso visible solo al imprimir */}
-      <div className="print-only" style={{ display: 'none', marginBottom: 20, borderBottom: '2px solid #0284c7', paddingBottom: 12 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0f172a', margin: 0 }}>DentaCare — Reporte Ejecutivo Clínico</h1>
-        <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0 0' }}>
-          Generado el: {new Date().toLocaleDateString('es-GT', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })} — Período: {MESES_OPCIONES.find(o => o.value === periodo)?.label}
-        </p>
+    <div className="reportes-container" style={{ fontFamily: "'Outfit', 'Inter', system-ui, -apple-system, sans-serif" }}>
+      {/* Membrete formal clínico visible solo al imprimir / PDF */}
+      <div className="print-only">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2.5px solid #0284c7', paddingBottom: 14, marginBottom: 18 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              width: 44,
+              height: 44,
+              background: '#0284c7',
+              borderRadius: 10,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 22,
+              color: 'white',
+            }}>
+              🦷
+            </div>
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 800, color: '#0f172a', margin: 0, letterSpacing: '-0.01em' }}>
+                Clínica Dental DentaCare
+              </h1>
+              <p style={{ fontSize: 11.5, color: '#64748b', margin: '2px 0 0 0' }}>
+                Sistema de Control y Gestión Odontológica Especializada
+              </p>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#0284c7' }}>
+              Reporte Ejecutivo de Gestión
+            </div>
+            <div style={{ fontSize: 11.5, color: '#334155', marginTop: 2 }}>
+              Período: <strong>{MESES_OPCIONES.find(o => o.value === periodo)?.label}</strong>
+            </div>
+            <div style={{ fontSize: 10.5, color: '#64748b', marginTop: 1 }}>
+              Generado: {new Date().toLocaleDateString('es-GT', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Encabezado Unificado sin icono lateral */}
@@ -460,13 +500,13 @@ const Reportes = () => {
           alignItems: 'center',
           gap: 8,
         }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <span>{error}</span>
         </div>
       )}
 
       {/* Métricas KPI principales */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
+      <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
         {[
           {
             label: 'Total citas',
@@ -526,7 +566,7 @@ const Reportes = () => {
         ].map((stat, i) => (
           <div
             key={i}
-            className="report-card"
+            className="kpi-card report-card"
             style={{
               background: 'white',
               borderRadius: 16,
@@ -550,10 +590,10 @@ const Reportes = () => {
           >
             <div>
               <div style={{ fontSize: 12.5, color: '#64748b', fontWeight: 500, marginBottom: 4 }}>{stat.label}</div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: stat.color }}>{stat.valor}</div>
+              <div className="kpi-value" style={{ fontSize: 28, fontWeight: 700, color: stat.color }}>{stat.valor}</div>
               <div style={{ fontSize: 11.5, color: '#94a3b8', marginTop: 3 }}>{stat.sub}</div>
             </div>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: stat.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div className="no-print-icon" style={{ width: 44, height: 44, borderRadius: 12, background: stat.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               {stat.icon}
             </div>
           </div>
@@ -561,8 +601,8 @@ const Reportes = () => {
       </div>
 
       {/* Gráficas Principales */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20, marginBottom: 20 }}>
-        {/* Dona — Estados */}
+      <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20, marginBottom: 20 }}>
+        {/* Dona — Estados con Reprogramadas incluidas */}
         <div className="report-card" style={cardStyle}>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -577,6 +617,7 @@ const Reportes = () => {
               { label: 'Completadas', color: '#10b981', bg: '#ecfdf5', total: completadas },
               { label: 'Canceladas', color: '#ef4444', bg: '#fef2f2', total: canceladas },
               { label: 'Programadas', color: '#0284c7', bg: '#e0f2fe', total: programadas },
+              { label: 'Reprogramadas', color: '#f97316', bg: '#fff7ed', total: reprogramadas },
             ].map(e => (
               <span key={e.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: e.color, background: e.bg, padding: '4px 10px', borderRadius: 8, fontWeight: 600 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: e.color, display: 'inline-block' }} />
@@ -605,6 +646,7 @@ const Reportes = () => {
               { label: 'Completadas', color: '#10b981', bg: '#ecfdf5' },
               { label: 'Canceladas', color: '#ef4444', bg: '#fef2f2' },
               { label: 'Programadas', color: '#0284c7', bg: '#e0f2fe' },
+              { label: 'Reprogramadas', color: '#f97316', bg: '#fff7ed' },
             ].map(e => (
               <span key={e.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: e.color, background: e.bg, padding: '4px 10px', borderRadius: 8, fontWeight: 600 }}>
                 <span style={{ width: 7, height: 7, borderRadius: 2, background: e.color, display: 'inline-block' }} />
@@ -620,7 +662,7 @@ const Reportes = () => {
       </div>
 
       {/* Evolución Mensual de Citas */}
-      <div className="report-card" style={{ ...cardStyle, marginBottom: 20 }}>
+      <div className="report-card monthly-chart-card" style={{ ...cardStyle, marginBottom: 20 }}>
         <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
@@ -635,7 +677,7 @@ const Reportes = () => {
       </div>
 
       {/* Tratamientos más realizados & Resumen médicos */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20, marginBottom: 24 }}>
+      <div className="bottom-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 20, marginBottom: 24 }}>
         {/* Tratamientos más realizados */}
         <div className="report-card" style={cardStyle}>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -678,7 +720,7 @@ const Reportes = () => {
           )}
         </div>
 
-        {/* Tabla resumen médicos */}
+        {/* Tabla resumen médicos con columna Reprogramadas */}
         <div className="report-card" style={cardStyle}>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f172a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -696,11 +738,12 @@ const Reportes = () => {
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12.5, textAlign: 'left' }}>
                 <thead>
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                    <th style={{ padding: '10px 12px', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Médico</th>
-                    <th style={{ padding: '10px 8px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Total</th>
-                    <th style={{ padding: '10px 8px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Completadas</th>
-                    <th style={{ padding: '10px 8px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Canceladas</th>
-                    <th style={{ padding: '10px 8px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Efectividad</th>
+                    <th style={{ padding: '10px 10px', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Médico</th>
+                    <th style={{ padding: '10px 6px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Total</th>
+                    <th style={{ padding: '10px 6px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Completadas</th>
+                    <th style={{ padding: '10px 6px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Canceladas</th>
+                    <th style={{ padding: '10px 6px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Reprogramadas</th>
+                    <th style={{ padding: '10px 6px', textAlign: 'center', fontSize: 11.5, color: '#64748b', fontWeight: 600 }}>Efectividad</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -711,19 +754,24 @@ const Reportes = () => {
                       onMouseEnter={e => (e.currentTarget.style.background = '#f8fafc')}
                       onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                     >
-                      <td style={{ padding: '10px 12px', fontWeight: 600, color: '#0f172a' }}>Dr. {m.nombre}</td>
-                      <td style={{ padding: '10px 8px', textAlign: 'center', color: '#334155', fontWeight: 500 }}>{m.total}</td>
-                      <td style={{ padding: '10px 8px', textAlign: 'center' }}>
+                      <td style={{ padding: '10px 10px', fontWeight: 600, color: '#0f172a' }}>Dr. {m.nombre}</td>
+                      <td style={{ padding: '10px 6px', textAlign: 'center', color: '#334155', fontWeight: 500 }}>{m.total}</td>
+                      <td style={{ padding: '10px 6px', textAlign: 'center' }}>
                         <span style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', fontSize: 11.5, padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
                           {m.completadas}
                         </span>
                       </td>
-                      <td style={{ padding: '10px 8px', textAlign: 'center' }}>
+                      <td style={{ padding: '10px 6px', textAlign: 'center' }}>
                         <span style={{ background: '#fef2f2', color: '#b91c1c', border: '1px solid #fecaca', fontSize: 11.5, padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
                           {m.canceladas}
                         </span>
                       </td>
-                      <td style={{ padding: '10px 8px', textAlign: 'center', fontWeight: 700, color: m.efectividad >= 80 ? '#047857' : m.efectividad >= 60 ? '#c2410c' : '#b91c1c' }}>
+                      <td style={{ padding: '10px 6px', textAlign: 'center' }}>
+                        <span style={{ background: '#fff7ed', color: '#c2410c', border: '1px solid #ffedd5', fontSize: 11.5, padding: '2px 8px', borderRadius: 6, fontWeight: 600 }}>
+                          {m.reprogramadas || 0}
+                        </span>
+                      </td>
+                      <td style={{ padding: '10px 6px', textAlign: 'center', fontWeight: 700, color: m.efectividad >= 80 ? '#047857' : m.efectividad >= 60 ? '#c2410c' : '#b91c1c' }}>
                         {m.efectividad}%
                       </td>
                     </tr>
@@ -735,25 +783,127 @@ const Reportes = () => {
         </div>
       </div>
 
-      {/* Estilos para impresión */}
+      {/* Estilos para impresión y corrección de tamaño PDF */}
       <style>{`
+        .print-only {
+          display: none;
+        }
+
         @media print {
-          body {
-            background: white !important;
-            color: black !important;
+          @page {
+            size: letter portrait;
+            margin: 10mm 12mm 12mm 12mm;
           }
-          .no-print {
+
+          html, body {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            overflow: visible !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            font-size: 10pt !important;
+          }
+
+          #root, .app-layout, .app-main, main, .reportes-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+            overflow: visible !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+            border: none !important;
+            float: none !important;
+            position: static !important;
+          }
+
+          .no-print, aside, nav, button, select {
             display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
           }
+
           .print-only {
             display: block !important;
+            visibility: visible !important;
           }
+
+          .kpi-grid {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 10px !important;
+            margin-bottom: 14px !important;
+            width: 100% !important;
+          }
+
+          .kpi-card {
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 10px !important;
+            padding: 10px 12px !important;
+            box-shadow: none !important;
+            background: #ffffff !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+
+          .kpi-card .kpi-value {
+            font-size: 22px !important;
+            font-weight: 700 !important;
+          }
+
+          .no-print-icon {
+            display: none !important;
+          }
+
+          .charts-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+            margin-bottom: 14px !important;
+            width: 100% !important;
+          }
+
+          .bottom-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+            margin-bottom: 14px !important;
+            width: 100% !important;
+          }
+
+          .monthly-chart-card {
+            margin-bottom: 14px !important;
+          }
+
           .report-card {
             border: 1px solid #cbd5e1 !important;
+            border-radius: 12px !important;
             box-shadow: none !important;
-            break-inside: avoid;
-            page-break-inside: avoid;
-            margin-bottom: 16px !important;
+            padding: 12px 14px !important;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            background: #ffffff !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+          }
+
+          canvas {
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+
+          table {
+            width: 100% !important;
+            border-collapse: collapse !important;
           }
         }
       `}</style>
@@ -761,4 +911,5 @@ const Reportes = () => {
   );
 };
 
-export default Reportes;
+export default Reportes;
+ 
