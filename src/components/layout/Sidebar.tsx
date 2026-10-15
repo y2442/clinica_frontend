@@ -50,7 +50,7 @@ const Sidebar = () => {
   });
 
   return (
-    <aside style={{
+    <aside className="no-print" style={{
       width: 235,
       minHeight: '100vh',
       background: 'linear-gradient(180deg, #07192c 0%, #030d18 100%)',
