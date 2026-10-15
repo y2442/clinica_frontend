@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -10,16 +10,8 @@ const Login = () => {
 
   const [form, setForm] = useState({ nombre_usuario: '', contrasena: '' });
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
-  const [recordarUsuario, setRecordarUsuario] = useState(true);
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
-
-  useEffect(() => {
-    const usuarioGuardado = localStorage.getItem('denta_remembered_user');
-    if (usuarioGuardado) {
-      setForm(prev => ({ ...prev, nombre_usuario: usuarioGuardado }));
-    }
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,13 +25,6 @@ const Login = () => {
 
     try {
       const { data } = await api.post<LoginResponse>('/auth/login', form);
-
-      if (recordarUsuario) {
-        localStorage.setItem('denta_remembered_user', form.nombre_usuario);
-      } else {
-        localStorage.removeItem('denta_remembered_user');
-      }
-
       login(data);
       navigate('/inicio');
     } catch (err: any) {
@@ -47,11 +32,6 @@ const Login = () => {
     } finally {
       setCargando(false);
     }
-  };
-
-  const rellenarCredenciales = (user: string, pass: string) => {
-    setForm({ nombre_usuario: user, contrasena: pass });
-    setError('');
   };
 
   return (
@@ -184,7 +164,7 @@ const Login = () => {
           </div>
 
           {/* Campo Contraseña */}
-          <div style={{ marginBottom: 18 }}>
+          <div style={{ marginBottom: 24 }}>
             <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
               <i className="ti ti-lock" style={{ fontSize: 14, color: '#185fa5' }} aria-hidden="true" /> Contraseña
             </label>
@@ -249,19 +229,6 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Opciones adicionales */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22, fontSize: 13 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 7, cursor: 'pointer', color: '#475569', userSelect: 'none' }}>
-              <input
-                type="checkbox"
-                checked={recordarUsuario}
-                onChange={e => setRecordarUsuario(e.target.checked)}
-                style={{ accentColor: '#0284c7', width: 15, height: 15, borderRadius: 4, cursor: 'pointer' }}
-              />
-              Recordar usuario
-            </label>
-          </div>
-
           {/* Botón de ingreso */}
           <button
             type="submit"
@@ -314,50 +281,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        {/* Credenciales rápidas de acceso */}
-        <div style={{
-          marginTop: 24,
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
-          borderRadius: 12,
-          padding: '12px 14px',
-          fontSize: 12,
-        }}>
-          <div style={{ fontWeight: 600, color: '#334155', marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span>Acceso rápido de prueba</span>
-            <span style={{ fontSize: 10, color: '#0284c7', background: '#e0f2fe', padding: '2px 6px', borderRadius: 4, fontWeight: 600 }}>Click para llenar</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => rellenarCredenciales('admin', 'admin1')}
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              background: 'white',
-              border: '1px solid #cbd5e1',
-              borderRadius: 8,
-              padding: '6px 10px',
-              fontSize: 12,
-              color: '#1e293b',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = '#0284c7';
-              (e.currentTarget as HTMLButtonElement).style.background = '#f0f9ff';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = '#cbd5e1';
-              (e.currentTarget as HTMLButtonElement).style.background = 'white';
-            }}
-          >
-            <span>⚡ Administrador</span>
-            <span style={{ fontFamily: 'monospace', color: '#0284c7', fontWeight: 600 }}>admin / admin1</span>
-          </button>
-        </div>
       </div>
 
       <style>{`
